@@ -4,16 +4,16 @@ class DemoCustomElements extends PolymerElement {
     constructor() {
         super();
 
-        this.addEventListener('danmakuplaystate-changed', () => {
-            if (this.danmakuplaystate === 'paused') {
-                const items = this.querySelectorAll('danmaku-item');
+        this.addEventListener('bulletchattingplaystate-changed', () => {
+            if (this.bulletchattingplaystate === 'paused') {
+                const items = this.querySelectorAll('bullet-chatting');
                 for (let i = 0; i < items.length; i++) {
-                    items[i].danmakuplaystate = 'paused';
+                    items[i].bulletchattingplaystate = 'paused';
                 }
-            } else if (this.danmakuplaystate === 'running') {
-                const items = this.querySelectorAll('danmaku-item');
+            } else if (this.bulletchattingplaystate === 'running') {
+                const items = this.querySelectorAll('bullet-chatting');
                 for (let i = 0; i < items.length; i++) {
-                    items[i].danmakuplaystate = 'running';
+                    items[i].bulletchattingplaystate = 'running';
                 }
             }
         });
@@ -33,16 +33,16 @@ class DemoCustomElements extends PolymerElement {
 
     static get properties () {
         return {
-            danmakuplaystate: {
+            bulletchattingplaystate: {
                 type: String,
                 notify: true,
                 value: 'running',
             },
-            danmakuduration: {
+            bulletchattingduration: {
                 type: Number,
                 value: 4000,
             },
-            danmakudelay: {
+            bulletchattingdelay: {
                 type: Number,
                 value: 0,
             },
@@ -63,4 +63,4 @@ class DemoCustomElements extends PolymerElement {
     }
 }
 
-customElements.define('danmaku-list', DemoCustomElements);
+customElements.define('bullet-chatting-list', DemoCustomElements);

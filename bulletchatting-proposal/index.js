@@ -1,54 +1,54 @@
-const list = document.querySelector('danmaku-list');
+const list = document.querySelector('bullet-chatting-list');
 const video = document.querySelector('video');
-list.danmakuplaystate = 'paused';
+list.bulletchattingplaystate = 'paused';
 
-// generate danmakus
+// generate bulletchattings
 const duration = 269;
-const danmakus = [];
+const bulletchattings = [];
 for (let i = 0; i < duration * 5; i++) {
-    danmakus.push({
+    bulletchattings.push({
         text: '0123456789'.slice(parseInt(Math.random() * 10)),
         time: Math.random() * 269,
         mode: 'scroll',
     });
 }
 for (let i = 0; i < duration * 1; i++) {
-    danmakus.push({
+    bulletchattings.push({
         text: '0123456789'.slice(parseInt(Math.random() * 10)),
         time: Math.random() * 269,
         mode: 'top',
     });
 }
 for (let i = 0; i < duration * 1; i++) {
-    danmakus.push({
+    bulletchattings.push({
         text: '0123456789'.slice(parseInt(Math.random() * 10)),
         time: Math.random() * 269,
         mode: 'bottom',
     });
 }
-danmakus.sort((a, b) => a.time - b.time);
+bulletchattings.sort((a, b) => a.time - b.time);
 
-window.addDanmaku = (text, mode, fontSize, duration, delay) => {
-    const danmaku = document.createElement('danmaku-item');
-    danmaku.innerHTML = text;
-    danmaku.mode = mode;
+window.addbulletchatting = (text, mode, fontSize, duration, delay) => {
+    const bulletchatting = document.createElement('bullet-chatting');
+    bulletchatting.innerHTML = text;
+    bulletchatting.mode = mode;
     if (duration) {
-        danmaku.danmakuduration = parseInt(duration);
+        bulletchatting.bulletchattingduration = parseInt(duration);
     }
     if (delay) {
-        danmaku.danmakudelay = parseInt(delay);
+        bulletchatting.bulletchattingdelay = parseInt(delay);
     }
     if (fontSize) {
-        danmaku.style.fontSize = fontSize + 'px';
+        bulletchatting.style.fontSize = fontSize + 'px';
     }
-    list.appendChild(danmaku);
+    list.appendChild(bulletchatting);
 }
 
 let index = 0;
 function nextFrame () {
     const nowTime = video.currentTime;
-    while (danmakus[index] && danmakus[index].time <= nowTime) {
-        window.addDanmaku(danmakus[index].text, danmakus[index].mode);
+    while (bulletchattings[index] && bulletchattings[index].time <= nowTime) {
+        window.addbulletchatting(bulletchattings[index].text, bulletchattings[index].mode);
         index++;
     }
 
@@ -62,18 +62,18 @@ function nextFrame () {
 }
 
 video.addEventListener('play', () => {
-    list.danmakuplaystate = 'running';
+    list.bulletchattingplaystate = 'running';
     window.requestAnimationFrame(() => {
         nextFrame();
     });
 });
 video.addEventListener('pause', () => {
-    list.danmakuplaystate = 'paused';
+    list.bulletchattingplaystate = 'paused';
 });
 video.addEventListener('seeking', () => {
     list.innerHTML = '';
-    for (let i = 0; i < danmakus.length; i++) {
-        if (danmakus[i].time > video.currentTime) {
+    for (let i = 0; i < bulletchattings.length; i++) {
+        if (bulletchattings[i].time > video.currentTime) {
             index = i;
             break;
         }

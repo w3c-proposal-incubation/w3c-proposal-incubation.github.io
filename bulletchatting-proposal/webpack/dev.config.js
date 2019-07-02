@@ -1,18 +1,15 @@
 /* eslint-disable no-undef */
 const path = require('path');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 
-    mode: 'production',
+    mode: 'development',
 
-    bail: true,
-
-    devtool: 'source-map',
+    devtool: 'cheap-module-source-map',
 
     entry: {
-        'polymer-danmaku': './src/index.js'
+        'polymer-bulletchatting': './src/index.js'
     },
 
     output: {
@@ -43,23 +40,30 @@ module.exports = {
             },
         ]
     },
-    
-    plugins: [
-        new CopyWebpackPlugin([{
-            from: 'node_modules/@webcomponents/webcomponentsjs/bundles',
-            to: 'bundles',
-            ignore: [ '*.js.map' ]
-        }, {
-            from: 'node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js',
-            to: ''
-        }])
-    ],
+
+    devServer: {
+        compress: true,
+        contentBase: path.resolve(__dirname, '..'),
+        clientLogLevel: 'none',
+        quiet: false,
+        open: false,
+        historyApiFallback: {
+            disableDotRule: true
+        },
+        watchOptions: {
+            ignored: /node_modules/
+        }
+    },
 
     node: {
         dgram: 'empty',
         fs: 'empty',
         net: 'empty',
-        tls: 'empty',
+        tls: 'empty'
+    },
+
+    performance: {
+        hints: false
     }
 
 };

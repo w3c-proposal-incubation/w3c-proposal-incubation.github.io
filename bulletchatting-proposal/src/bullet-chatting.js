@@ -4,10 +4,10 @@ class DemoCustomElements extends PolymerElement {
     constructor() {
         super();
 
-        this.addEventListener('danmakuplaystate-changed', () => {
-            if (this.danmakuplaystate === 'paused') {
+        this.addEventListener('bulletchattingplaystate-changed', () => {
+            if (this.bulletchattingplaystate === 'paused') {
                 this.animation && this.animation.pause();
-            } else if (this.danmakuplaystate === 'running') {
+            } else if (this.bulletchattingplaystate === 'running') {
                 this.animation && this.animation.play();
             }
         });
@@ -15,14 +15,14 @@ class DemoCustomElements extends PolymerElement {
 
     static get properties () {
         return {
-            danmakuplaystate: {
+            bulletchattingplaystate: {
                 type: String,
                 notify: true,
             },
-            danmakuduration: {
+            bulletchattingduration: {
                 type: Number,
             },
-            danmakudelay: {
+            bulletchattingdelay: {
                 type: Number,
             },
             overlapIndex: {
@@ -55,9 +55,9 @@ class DemoCustomElements extends PolymerElement {
     connectedCallback () {
         super.connectedCallback();
 
-        this._inheritProp('danmakuplaystate');
-        this._inheritProp('danmakuduration');
-        this._inheritProp('danmakudelay');
+        this._inheritProp('bulletchattingplaystate');
+        this._inheritProp('bulletchattingduration');
+        this._inheritProp('bulletchattingdelay');
 
         let keyframes = [];
         if (this.mode === 'scroll') {
@@ -78,7 +78,7 @@ class DemoCustomElements extends PolymerElement {
             this.style.width = '100%';
         }
 
-        this._brothers = [...this.parentElement.querySelectorAll('danmaku-item')].slice(0, -1).filter((item) => (item.mode === this.mode) && (item.animate.currentTime !== item.danmakuduration));
+        this._brothers = [...this.parentElement.querySelectorAll('bullet-chatting')].slice(0, -1).filter((item) => (item.mode === this.mode) && (item.animate.currentTime !== item.bulletchattingduration));
         let index = 0;
         let disabled = false;
         let end = false;
@@ -94,7 +94,7 @@ class DemoCustomElements extends PolymerElement {
             }
             let boundary = {
                 0: 1,
-            }; // boundaries of other danmaku items
+            }; // boundaries of other bulletchatting items
             const overlapBrothers = this._brothers.filter((item) => item.overlapIndex === index);
             overlapBrothers.forEach((ele) => {
                 boundary[parseInt(ele.style[styleFlag] || 0)] = 1;
@@ -120,23 +120,23 @@ class DemoCustomElements extends PolymerElement {
         
         if (!disabled) {
             this.animation = this.animate(keyframes, {
-                duration: this.danmakuduration,
-                delay: this.danmakudelay,
+                duration: this.bulletchattingduration,
+                delay: this.bulletchattingdelay,
             });
-            if (this.danmakuplaystate === 'paused') {
+            if (this.bulletchattingplaystate === 'paused') {
                 this.animation.pause();
             }
             this.animation.onfinish = () => {
-                this.dispatchEvent(new CustomEvent('danmakuend'));
+                this.dispatchEvent(new CustomEvent('bulletchattingend'));
                 this.finished = true;
                 this.remove();
             };
             this.animation.oncancel = () => {
-                this.dispatchEvent(new CustomEvent('danmakucannel'));
+                this.dispatchEvent(new CustomEvent('bulletchattingcannel'));
                 this.remove();
             };
     
-            this.dispatchEvent(new CustomEvent('danmakustart'));
+            this.dispatchEvent(new CustomEvent('bulletchattingstart'));
         }
     }
     
@@ -146,7 +146,7 @@ class DemoCustomElements extends PolymerElement {
             if (this.animation) {
                 this.animation.cancel();
             } else {
-                this.dispatchEvent(new CustomEvent('danmakucannel'));
+                this.dispatchEvent(new CustomEvent('bulletchattingcannel'));
             }
         }
     }
@@ -164,26 +164,26 @@ class DemoCustomElements extends PolymerElement {
         }
         const overlapBrothers = this._brothers.filter((item) => item.overlapIndex === index);
         for (let i = 0; i < overlapBrothers.length; i++) {
-            if (overlapBrothers[i].animation.currentTime !== overlapBrothers[i].danmakuduration) { // hack
+            if (overlapBrothers[i].animation.currentTime !== overlapBrothers[i].bulletchattingduration) { // hack
                 const targetBoundingClientRect = overlapBrothers[i].getBoundingClientRect();
     
                 if (mode === 'scroll') {
                     if (targetBoundingClientRect.top < (top + thisBoundingClientRect.bottom)
                         && targetBoundingClientRect.bottom > (top + thisBoundingClientRect.top)) { // pathway coincide
-                        if (targetBoundingClientRect.right > thisBoundingClientRect.left + ((this.danmakudelay < 0) ? (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.danmakudelay / this.duration) : 0)) { // crash immediately
+                        if (targetBoundingClientRect.right > thisBoundingClientRect.left + ((this.bulletchattingdelay < 0) ? (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.bulletchattingdelay / this.duration) : 0)) { // crash immediately
                             return false;
                         }
-                        if (overlapBrothers[i].danmakuduration - overlapBrothers[i].animation.currentTime + overlapBrothers[i].danmakudelay > (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.danmakuduration) + this.danmakudelay) { // crash in animation
+                        if (overlapBrothers[i].bulletchattingduration - overlapBrothers[i].animation.currentTime + overlapBrothers[i].bulletchattingdelay > (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.bulletchattingduration) + this.bulletchattingdelay) { // crash in animation
                             return false;
                         }
                     }
                 } else if (mode === 'reverse') {
                     if (targetBoundingClientRect.top < (top + thisBoundingClientRect.bottom)
                         && targetBoundingClientRect.bottom > (top + thisBoundingClientRect.top)) { // pathway coincide
-                        if (targetBoundingClientRect.left < thisBoundingClientRect.right + ((this.danmakudelay < 0) ? (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.danmakudelay / this.duration) : 0)) { // crash immediately
+                        if (targetBoundingClientRect.left < thisBoundingClientRect.right + ((this.bulletchattingdelay < 0) ? (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.bulletchattingdelay / this.duration) : 0)) { // crash immediately
                             return false;
                         }
-                        if ((overlapBrothers[i].danmakuduration - overlapBrothers[i].animation.currentTime + overlapBrothers[i].danmakudelay) > (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.danmakuduration) + this.danmakudelay) { // crash in animation
+                        if ((overlapBrothers[i].bulletchattingduration - overlapBrothers[i].animation.currentTime + overlapBrothers[i].bulletchattingdelay) > (this.parentElement.offsetWidth / (this.parentElement.offsetWidth + this.offsetWidth) * this.bulletchattingduration) + this.bulletchattingdelay) { // crash in animation
                             return false;
                         }
                     }
@@ -204,4 +204,4 @@ class DemoCustomElements extends PolymerElement {
     }
 }
 
-customElements.define('danmaku-item', DemoCustomElements);
+customElements.define('bullet-chatting', DemoCustomElements);

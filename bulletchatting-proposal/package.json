@@ -1,7 +1,7 @@
 {
-  "name": "polymer-danmaku",
+  "name": "polymer-bulletchatting",
   "version": "0.0.1",
-  "main": "dist/polymer-danmaku.min.js",
+  "main": "dist/polymer-bulletchatting.min.js",
   "scripts": {
     "start": "npm run dev",
     "build": "cross-env NODE_ENV=production webpack --config webpack/prod.config.js --progress --display-error-details --colors",
