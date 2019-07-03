@@ -56,11 +56,6 @@ class DemoCustomElements extends PolymerElement {
             },
         };
     }
-
-    attributeChangedCallback (q) {
-        super.attributeChangedCallback();
-        console.log('attributeChangedCallback');
-    }
 }
 
 customElements.define('bullet-chatting-list', DemoCustomElements);

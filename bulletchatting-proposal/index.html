@@ -7,13 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            width: 800px;
+            width: 850px;
             margin: 0 auto 50px;
         }
 
         .bulletchatting-video {
             position: relative;
             font-size: 0;
+            width: 600px;
         }
 
         video {
@@ -29,6 +30,52 @@
             color: #fff;
             font-size: 25px;
             pointer-events: none;
+        }
+
+        .area {
+            position: absolute;
+            top: 0;
+            bottom: 70%;
+            left: 0;
+            right: -20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-right: 2px solid #000;
+            font-size: 16px;
+            line-height: 30px;
+        }
+
+        .area-text {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: calc(100% + 20px);
+            width: 250px;
+        }
+
+        .area-text p {
+            margin: 0;
+        }
+
+        .area-border {
+            position: absolute;
+            right: 0;
+            width: 18px;
+            height: 2px;
+            background: #000;
+        }
+
+        .area-border-top {
+            top: 0;
+        }
+
+        .area-border-bottom {
+            bottom: 0;
+        }
+
+        .allow-overlap-span {
+            position: absolute;
+            left: calc(100% + 20px);
+            top: 0;
         }
 
         .controller {
@@ -57,6 +104,14 @@
     <div class="bulletchatting-video">
         <video controls src="https://api.dogecloud.com/player/get.mp4?vcode=5ac682e6f8231991&userId=17&ext=.mp4"></video>
         <bullet-chatting-list></bullet-chatting-list>
+        <div class="area">
+            <div class="area-text">
+                <p>area: <input value="30" type="number" onchange="document.querySelector('bullet-chatting-list').area = this.value;document.querySelector('.area').style.bottom = `${100 - this.value}%`"></p>
+                <p>allowOverlap: <input type="checkbox" onchange="document.querySelector('bullet-chatting-list').allowOverlap = this.checked"></p>
+            </div>
+            <div class="area-border area-border-top"></div>
+            <div class="area-border area-border-bottom"></div>
+        </div>
     </div>
     <h2>&lt;bullet-chatting&gt;</h2>
     <h3>Add a bullet-chatting:</h3>
@@ -129,7 +184,7 @@ document.querySelector('bullet-chatting-list').bulletchattingplaystate = 'paused
     <pre>document.querySelector('bullet-chatting-list').allowOverlap = true;</pre>
 
     <scirpt src="./dist/webcompoments-loader.js"></scirpt>
-    <script src="./dist/polymer-bulletchatting.js"></script>
+    <script src="polymer-bulletchatting.js"></script>
     <script src="./index.js"></script>
     <script>
         function generateCode() {

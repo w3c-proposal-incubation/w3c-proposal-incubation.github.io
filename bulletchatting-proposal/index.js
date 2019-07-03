@@ -1,25 +1,26 @@
 const list = document.querySelector('bullet-chatting-list');
 const video = document.querySelector('video');
 list.bulletchattingplaystate = 'paused';
+list.area = 30;
 
 // generate bulletchattings
 const duration = 269;
 const bulletchattings = [];
-for (let i = 0; i < duration * 5; i++) {
+for (let i = 0; i < duration * 7; i++) {
     bulletchattings.push({
         text: '0123456789'.slice(parseInt(Math.random() * 10)),
         time: Math.random() * 269,
         mode: 'scroll',
     });
 }
-for (let i = 0; i < duration * 1; i++) {
+for (let i = 0; i < duration * 0.5; i++) {
     bulletchattings.push({
         text: '0123456789'.slice(parseInt(Math.random() * 10)),
         time: Math.random() * 269,
         mode: 'top',
     });
 }
-for (let i = 0; i < duration * 1; i++) {
+for (let i = 0; i < duration * 0.5; i++) {
     bulletchattings.push({
         text: '0123456789'.slice(parseInt(Math.random() * 10)),
         time: Math.random() * 269,
