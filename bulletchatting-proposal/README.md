@@ -2,7 +2,7 @@
 
 ## Demo
 
-https://w3c-proposal-incubation.github.io/bulletchatting-design
+https://w3c-proposal-incubation.github.io/bulletchatting-proposal/
 
 Demo 中样式以属性的方式实现
 
