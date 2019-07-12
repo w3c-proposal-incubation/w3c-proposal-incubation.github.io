@@ -80,7 +80,3 @@ video.addEventListener('seeking', () => {
         }
     }
 });
-
-document.querySelector('.area').addEventListener('click', () => {
-    video.paused ? video.play() : video.pause();
-});
